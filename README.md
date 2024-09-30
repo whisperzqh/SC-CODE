@@ -1,73 +1,47 @@
-## On the Applicability of Code Language Models to Scientific Computing Programs
+# On the Applicability of Code Language Models to Scientific Computing Programs
 
-**The data can be downloaded through the figshare link:** https://figshare.com/s/46ec7f0cff1c6072abc6
+[TOC]
 
 ## Benchmark Information
 
-+ ```./raw_data``` contains all the code files collected from GitHub repositories and the documentation collected from the official documentation of the three languages.
-
-  + ```./raw_data/github_data``` contains all the source code files from the collected GitHub repos.
-
-    |            | Julia | MATLAB |  R   |
-    | ---------- | :---: | :----: | :--: |
-    | # of repos |  619  |  506   | 542  |
-
-    + data format: Code corpus are saved in json format files. 
-
-      ```
-      $lang_data.json
-      {
-          path: the source file path
-          code_string: code string in the file
-      }
-      ```
-    
-  
-  
-    + ```./raw_data/documentation``` contains the documentation information, including the description, API name, signature, parameters, usage examples (if has), etc.
-  
-      |                    | Julia | MATLAB |   R   |
-      | ------------------ | :---: | :----: | :---: |
-      | # of documentation | 2,211 | 4,142  | 6,851 |
-  
-
-
-+ ```./SC-CODE``` contains the extracted NL-code pairs from the source code files that can support code generation and code summarization. It also contains the API doc information from the documentation that can serve as the knowledge base.
++ ```./SC-CODE.zip``` contains the extracted NL-code pairs from the source code files that can support code generation and code summarization. It also contains the API doc information from the documentation that can serve as the knowledge base.
 
   + ```./SC-CODE/NL_code``` 
 
     + We extract the method and comment pairs based on heuristic rules, and following FSE'22 paper: [Are We Building on the Rock? On the Importance of Data Preprocessing for Code Summarization](https://github.com/BuiltOntheRock/FSE22_BuiltOntheRock) to clean the dataset.
+
     + data format: Method and NL are saved in jsonl format files.
 
       ```
       $lang/$split.jsonl
-      {
-          path: the path to the original file
-          language: the programming language
-          code: the code refers to function in the original file
-          code_tokens: tokenized version of `code`
-          docstring: the comment or docstring
-          docstring_tokens: tokenized version of `docstring`
-          partition: train/val/test
-      }
+          {
+              path: the path to the original file
+              language: the programming language
+              code: the code refers to function in the original file
+              code_tokens: tokenized version of `code`
+              docstring: the comment or docstring
+              docstring_tokens: tokenized version of `docstring`
+              partition: train/val/test
+          }
       ```
-
-  + ```./SC-CODE/code_doc```
-
-    + data format: API and description information are saved in json format files.
-
-      ```
-      $lang_doc.json
-      {
-          name: API name
-          code_string: API usage example code
-          des_string: description of the API
-      }
-      ```
-
-  + All the data extraction and pre-processing code is available at: ```./SC-CODE/DataPreprocessing/```
-
-+ ```./SC-API-CODE``` contains the NL-code pairs that include rich API calls related to computational mathematics based on SC-CODE. It also contains the API doc information that belong to libraries related to mathematical calculations and graphics.
+  
+  
+    - ```./SC-CODE/code_doc```
+  
+      - data format: API and description information are saved in json format files.
+  
+        ```
+        $lang_doc.json
+            {
+                name: API name
+                code_string: API usage example code
+                des_string: description of the API
+            }
+        ```
+  
+    - All the data extraction and pre-processing code is available at: ```./SC-CODE/DataPreprocessing/```
+  
++ ```./SC-API-CODE.zip``` contains the NL-code pairs that include rich API calls related to computational mathematics based on SC-CODE. It also contains the API doc information that belong to libraries related to mathematical calculations and graphics.
 
     + ```./SC-API-CODE/NL_code``` 
 
@@ -102,8 +76,36 @@
             category: libriary name
         }
         ```
+    
+    - ```./SC-API-CODE/completion_data```
+    
+      - We provide the data that we used for code completion task.
+    
+      - data format: both line-level and API-level code completion data are saved in jsonl format files.
+    
+        ```
+        $lang-completion-line.jsonl
+        {
+        	 path: the path to the original file
+        	 language: the programming language
+        	 input: the input for LLM
+        	 completion: the ground truth completion
+        	 docstring: the comment or docstring
+        }
+        
+        $lang-completion-api.jsonl
+        {
+        	 path: the path to the original file
+        	 language: the programming language
+        	 input_prefix: the prefix of the input for LLM
+        	 api: the ground truth completion
+        	 input_suffix: the suffix of the input for LLM
+        	 docstring: the comment or docstring
+        }
+        ```
+    
 
-- ```./data_for_semantic_correctness``` contains the high-quality computation-related NL-code pairs with test cases for semantic correctness evaluation of code generation. It also contains the evaluation script.
+- ```./data_for_semantic_correctness.zip``` contains the high-quality computation-related NL-code pairs with test cases for semantic correctness evaluation of code generation. It also contains the evaluation script.
 
   - ```./data_for_semantic_correctness/testcases_data``` 
 
@@ -123,6 +125,31 @@
       ```
 
   - The automated evaluation script is available at: ```./data_for_semantic_correctness/evaluation.py```. Its use requires ensuring that the operating environment of Julia, MATLAB, and R is installed.
+
+- ```./raw_data.zip``` contains all the code files collected from GitHub repositories and the documentation collected from the official documentation of the three languages.
+
+  + ```./raw_data/github_data``` contains all the source code files from the collected GitHub repos.
+
+    |            | Julia | MATLAB |  R   |
+    | ---------- | :---: | :----: | :--: |
+    | # of repos |  619  |  506   | 542  |
+
+    + data format: Code corpus are saved in json format files. 
+
+      ```
+      $lang_data.json
+      {
+          path: the source file path
+          code_string: code string in the file
+      }
+      ```
+
+  + ```./raw_data/documentation``` contains the documentation information, including the description, API name, signature, parameters, usage examples (if has), etc.
+
+    |                    | Julia | MATLAB |   R   |
+    | ------------------ | :---: | :----: | :---: |
+    | # of documentation | 2,211 | 4,142  | 6,851 |
+
 
 ## Model Fine-tuning
 
