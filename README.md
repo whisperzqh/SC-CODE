@@ -211,6 +211,10 @@ The template NL-Code pairs are available at ```./zero&few-shot-test/template_pro
 
 + Code Llama: Our implementation is based on the API provided by [Hugging Face](https://huggingface.co/codellama/CodeLlama-13b-hf).
 
++ DeepSeekCoder: Our implementation is based on the [example scripts](https://huggingface.co/deepseek-ai/DeepSeek-Coder-V2-Lite-Base#code-completion) offered by deepseek-ai.
+
 + OpenAI GPT-3.5 & GPT-4: Our implementation is based on the [example scripts](https://platform.openai.com/docs/api-reference/completions/create) offered by OpenAI.
+
++ DeepSeek-R1: Our implementation is based on the [example scripts](https://api-docs.deepseek.com/) offered by deepseek-ai.
 
 The implementation scripts of the above models are available at: ```./zero&few-shot-test/``` 
